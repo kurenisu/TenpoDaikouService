@@ -16,8 +16,6 @@ import com.example.demo.entity.TenpoInfo;
  */
 @Service
 public class TenpoInfoService {
-	
-	
     /**
      * 店舗情報 Mapper
      */

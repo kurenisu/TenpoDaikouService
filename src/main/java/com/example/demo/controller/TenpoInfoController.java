@@ -26,7 +26,6 @@ import com.example.demo.service.TenpoInfoService;
  */
 @Controller
 public class TenpoInfoController {
-	
 	/**
 	 * 店舗情報 Service
 	**/
