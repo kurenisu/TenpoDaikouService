@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import dto.TenpoAddRequest;
-import dto.TenpoSearchRequest;
-import dto.TenpoUpdateRequest;
-import entity.TenpoInfo;
-import service.TenpoInfoService;
+import com.example.demo.dto.TenpoAddRequest;
+import com.example.demo.dto.TenpoSearchRequest;
+import com.example.demo.dto.TenpoUpdateRequest;
+import com.example.demo.entity.TenpoInfo;
+import com.example.demo.service.TenpoInfoService;
 
 /**
  * 店舗情報 Controller
@@ -46,6 +46,16 @@ public class TenpoInfoController {
         return "tenpoinfo/search";
     }
 	
+    /**
+     * 店舗ログイン画面を表示
+     * @param model Model
+     * @return 店舗ログイン画面
+     */
+    @GetMapping(value = "/tenpoinfo/login")
+    public String login(Model model) {
+        return "tenpoinfo/login";
+    }
+    
     /**
      * 店舗新規登録画面を表示
      * @param model Model

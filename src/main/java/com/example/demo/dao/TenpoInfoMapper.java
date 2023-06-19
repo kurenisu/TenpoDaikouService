@@ -1,13 +1,13 @@
-package dao;
+package com.example.demo.dao;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import dto.TenpoAddRequest;
-import dto.TenpoSearchRequest;
-import dto.TenpoUpdateRequest;
-import entity.TenpoInfo;
+import com.example.demo.dto.TenpoAddRequest;
+import com.example.demo.dto.TenpoSearchRequest;
+import com.example.demo.dto.TenpoUpdateRequest;
+import com.example.demo.entity.TenpoInfo;
 
 /**
  * 店舗情報 Mapper
@@ -53,5 +53,4 @@ public interface TenpoInfoMapper {
      * @param id ID
      */
     void delete(Long id);
-
 }

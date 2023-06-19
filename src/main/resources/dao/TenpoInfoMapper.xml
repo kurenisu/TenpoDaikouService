@@ -22,9 +22,6 @@
             tenpoinfotable
         WHERE
             delete_date IS NULL
-<!--            <if test="id != null and id != ''">-->
-<!--                AND id = #{id}-->
-<!--            </if>-->
             <if test="name != null and name != ''">
                 AND name LIKE CONCAT('%', #{name}, '%')
             </if>

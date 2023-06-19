@@ -1,15 +1,15 @@
-package service;
+package com.example.demo.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import dao.TenpoInfoMapper;
-import dto.TenpoAddRequest;
-import dto.TenpoSearchRequest;
-import dto.TenpoUpdateRequest;
-import entity.TenpoInfo;
+import com.example.demo.dao.TenpoInfoMapper;
+import com.example.demo.dto.TenpoAddRequest;
+import com.example.demo.dto.TenpoSearchRequest;
+import com.example.demo.dto.TenpoUpdateRequest;
+import com.example.demo.entity.TenpoInfo;
 
 /**
  * 店舗情報 Service
