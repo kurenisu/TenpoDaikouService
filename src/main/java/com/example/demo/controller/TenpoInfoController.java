@@ -42,7 +42,7 @@ public class TenpoInfoController {
         List<TenpoInfo> tenpoList = tenpoInfoService.findAll();
         model.addAttribute("tenpolist", tenpoList);
         model.addAttribute("tenpoSearchRequest", new TenpoSearchRequest());
-        return "tenpoinfo/search";
+        return "tenpoinfo/serch";
     }
 	
     /**
@@ -91,11 +91,11 @@ public class TenpoInfoController {
      * @param model Model
      * @return 店舗情報一覧画面
      */
-    @RequestMapping(value = "/tenpoinfo/search", method = RequestMethod.POST)
+    @RequestMapping(value = "/tenpoinfo/serch", method = RequestMethod.POST)
     public String search(@ModelAttribute TenpoSearchRequest tenpoSearchRequest, Model model) {
         List<TenpoInfo> tenpoList = tenpoInfoService.search(tenpoSearchRequest);
         model.addAttribute("tenpolist", tenpoList);
-        return "tenpoinfo/search";
+        return "tenpoinfo/serch";
     }
     
     /**

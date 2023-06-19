@@ -5,21 +5,21 @@
 <mapper namespace="com.example.demo.dao.TenpoInfoMapper">
 
     <!-- 全件検索 -->
-    <select id="findAll" resultType="com.example.entity.TenpoInfo">
-        SELECT * FROM tenpoinfotable WHERE delete_date IS NULL
+    <select id="findAll" resultType="com.example.demo.entity.TenpoInfo">
+        SELECT * FROM daikoudb.tenpoinfotable WHERE delete_date IS NULL
     </select>
     
         <!-- 主キー検索 -->
-    <select id="findById" resultType="com.example.entity.TenpoInfo">
-        SELECT * FROM userinfotable WHERE id=#{id} AND delete_date IS NULL
+    <select id="findById" resultType="com.example.demo.entity.TenpoInfo">
+        SELECT * FROM daikoudb.tenpoinfotable WHERE id=#{id} AND delete_date IS NULL
     </select>
     
         <!-- 条件指定検索 -->
-    <select id="search" resultType="com.example.entity.TenpoInfo">
+    <select id="search" resultType="com.example.demo.entity.TenpoInfo">
         SELECT
             *
         FROM
-            tenpoinfotable
+            daikoudb.tenpoinfotable
         WHERE
             delete_date IS NULL
             <if test="name != null and name != ''">
@@ -29,7 +29,7 @@
      
          <!-- 新規登録 -->
     <insert id="save">
-        INSERT INTO tenpoinfotable
+        INSERT INTO daikoudb.tenpoinfotable
             (name, address, phone, info, url, image, update_date, create_date)
         VALUES
             (#{name}, #{address}, #{phone}, #{info}, #{url}, #{image}, CURRENT_TIMESTAMP,  CURRENT_TIMESTAMP)
@@ -37,12 +37,12 @@
     
         <!-- 更新 -->
     <update id="update">
-        UPDATE tenpoinfotable SET name = #{name}, address = #{address}, phone = #{phone}, info = #{info}, url = #{url}, image = #{image}, update_date = CURRENT_TIMESTAMP WHERE id = #{id}
+        UPDATE daikoudb.tenpoinfotable SET name = #{name}, address = #{address}, phone = #{phone}, info = #{info}, url = #{url}, image = #{image}, update_date = CURRENT_TIMESTAMP WHERE id = #{id}
     </update>
     
         <!-- 論理削除 -->
     <update id="delete">
-        UPDATE tenpoinfotable SET delete_date = CURRENT_TIMESTAMP WHERE id = #{id}
+        UPDATE daikoudb.tenpoinfotable SET delete_date = CURRENT_TIMESTAMP WHERE id = #{id}
     </update>
      
 </mapper>
