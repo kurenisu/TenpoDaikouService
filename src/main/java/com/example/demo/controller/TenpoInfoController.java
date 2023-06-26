@@ -42,6 +42,8 @@ public class TenpoInfoController {
 	@Autowired
 	private ModelMapper modelMapper;
 	
+	MultipartFile inputStream;
+	
 	Logger logger = LoggerFactory.getLogger(TenpoInfoController.class);
 	
     /**
@@ -58,14 +60,17 @@ public class TenpoInfoController {
         
         String base64 = "";
         
+        logger.info("tenpoListSize is {}", tenpoList.size());
         for(int i=0; i<tenpoList.size(); i++) {
-    		// base64にエンコードしたものを文字列に変更
-    		base64 = new String(Base64.encodeBase64(tenpoList.get(i).getImage(), false),"ASCII");
-    		// 拡張子をjpegと指定
-            // <img ht:src="">で指定できる形にする
-    		data.append("data:image/jpeg;base64,");
-    		data.append(base64);
-    		tenpoList.get(i).setBanner(data.toString());
+        	if(tenpoList.get(i).getImage() != null) {
+        		// base64にエンコードしたものを文字列に変更
+        		base64 = new String(Base64.encodeBase64(tenpoList.get(i).getImage(), false),"ASCII");
+        		// 拡張子をjpegと指定
+                // <img ht:src="">で指定できる形にする
+        		data.append("data:image/jpeg;base64,");
+        		data.append(base64);
+        		tenpoList.get(i).setBanner(data.toString());
+        	}
         }
         logger.info("tenpoList is {}", tenpoList);
         model.addAttribute("tenpolist", tenpoList);
@@ -108,6 +113,8 @@ public class TenpoInfoController {
         tenpoUpdateRequest.setName(tenpo.getName());
         tenpoUpdateRequest.setPhone(tenpo.getPhone());
         tenpoUpdateRequest.setAddress(tenpo.getAddress());
+        tenpoUpdateRequest.setTime(tenpo.getTime());
+        tenpoUpdateRequest.setUrl(tenpo.getUrl());
         model.addAttribute("tenpoUpdateRequest", tenpoUpdateRequest);
         return "tenpoinfo/edit";
     }

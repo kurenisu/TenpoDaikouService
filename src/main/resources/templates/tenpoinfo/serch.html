@@ -27,9 +27,6 @@
                         <th>営業時間</th>
                         <th>店舗URL</th>
                         <th>画像イメージ</th>
-<!--                        <th>更新日時</th>-->
-<!--                        <th>登録日時</th>-->
-<!--                        <th>削除日時</th>-->
                         <th></th>
                     </tr>
                 </thead>
@@ -40,8 +37,8 @@
                         <td th:text="*{address}"></td>
                         <td th:text="*{phone}"></td>
                         <td th:text="*{time}"></td>
-                        <td th:text="*{url}"></td>
-                        <td ><img th:src="*{banner}" th:width="50px" th:height="50px"></img></td>
+                        <td ><a th:href="*{url}" target="_blank"><p th:text="*{url}"></p></a></td>
+                        <td ><img th:src="*{banner}" th:width="50px" th:height="50px" alt="画像"></img></td>
                         <td>
                             <a th:href="@{/tenpoinfo/{id}/edit(id=*{id})}" class="btn btn-primary">編集</a>
                             <a th:href="@{/tenpoinfo/{id}/delete(id=*{id})}" class="btn btn-secondary">削除</a>

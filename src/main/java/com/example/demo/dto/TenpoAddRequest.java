@@ -52,11 +52,11 @@ public class TenpoAddRequest implements Serializable {
    */
    private MultipartFile image;
    
-   /**
-   * パスワード
-   */
-   @NotEmpty(message = "パスワードを入力してください")
-   @Size(max = 12, message = "パスワードは12桁以内で入力してください")
-   private String password;
+//   /**
+//   * パスワード
+//   */
+//   @NotEmpty(message = "パスワードを入力してください")
+//   @Size(max = 12, message = "パスワードは12桁以内で入力してください")
+//   private String password;
 
 }
