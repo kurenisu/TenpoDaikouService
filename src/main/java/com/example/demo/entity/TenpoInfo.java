@@ -28,17 +28,25 @@ public class TenpoInfo implements Serializable{
      */
     private String phone;
     /**
-     * 店舗紹介
+     * 営業時間
      */
-    private String tenpoInfo;
+    private String time;
     /**
      * url
      */
     private String url;
     /**
-     * 店舗画像
+     * 店舗画像登録用
      */
-    private String image;
+    private byte[] image;
+    /**
+     * 店舗画像表示用
+     */
+    private String banner;
+    /**
+     * パスワード
+     */
+    private String password;
     /**
      * 更新日時
      */

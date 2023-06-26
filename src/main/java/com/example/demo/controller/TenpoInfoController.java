@@ -1,8 +1,14 @@
 package com.example.demo.controller;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dto.TenpoAddRequest;
 import com.example.demo.dto.TenpoSearchRequest;
@@ -32,14 +39,35 @@ public class TenpoInfoController {
 	@Autowired
 	private TenpoInfoService tenpoInfoService;
 	
+	@Autowired
+	private ModelMapper modelMapper;
+	
+	Logger logger = LoggerFactory.getLogger(TenpoInfoController.class);
+	
     /**
      * 店舗情報一覧画面を表示
      * @param model Model
      * @return 店舗情報一覧画面
+     * @throws UnsupportedEncodingException 
      */
     @GetMapping(value = "/tenpoinfo/list")
-    public String displayList(Model model) {
+    public String displayList(Model model) throws UnsupportedEncodingException {
         List<TenpoInfo> tenpoList = tenpoInfoService.findAll();
+        
+        StringBuffer data  = new StringBuffer();
+        
+        String base64 = "";
+        
+        for(int i=0; i<tenpoList.size(); i++) {
+    		// base64にエンコードしたものを文字列に変更
+    		base64 = new String(Base64.encodeBase64(tenpoList.get(i).getImage(), false),"ASCII");
+    		// 拡張子をjpegと指定
+            // <img ht:src="">で指定できる形にする
+    		data.append("data:image/jpeg;base64,");
+    		data.append(base64);
+    		tenpoList.get(i).setBanner(data.toString());
+        }
+        logger.info("tenpoList is {}", tenpoList);
         model.addAttribute("tenpolist", tenpoList);
         model.addAttribute("tenpoSearchRequest", new TenpoSearchRequest());
         return "tenpoinfo/serch";
@@ -76,7 +104,6 @@ public class TenpoInfoController {
     public String displayEdit(@PathVariable Long id, Model model) {
         TenpoInfo tenpo = tenpoInfoService.findById(id);
         TenpoUpdateRequest tenpoUpdateRequest = new TenpoUpdateRequest();
-        tenpoUpdateRequest.setId(tenpo.getId());
         tenpoUpdateRequest.setId(tenpo.getId());
         tenpoUpdateRequest.setName(tenpo.getName());
         tenpoUpdateRequest.setPhone(tenpo.getPhone());
@@ -116,9 +143,11 @@ public class TenpoInfoController {
      * @param tenpoRequest リクエストデータ
      * @param model Model
      * @return 店舗情報一覧画面
+     * @throws IOException 
      */
     @RequestMapping(value = "/tenpoinfo/create", method = RequestMethod.POST)
-    public String create(@Validated @ModelAttribute TenpoAddRequest userRequest, BindingResult result, Model model) {
+    public String create(@Validated @ModelAttribute TenpoAddRequest tenpoRequest, BindingResult result, Model model) throws IOException {
+    	logger.info("image is {}", tenpoRequest.getImage());
         if (result.hasErrors()) {
             // 入力チェックエラーの場合
             List<String> errorList = new ArrayList<String>();
@@ -128,8 +157,19 @@ public class TenpoInfoController {
             model.addAttribute("validationError", errorList);
             return "tenpoinfo/add";
         }
+        // フォームに渡されたアップロードファイルを取得
+        MultipartFile multipartFile = tenpoRequest.getImage();
+        
+        // tenpoRequestをTenpoinfoクラスに変換
+        TenpoInfo info = modelMapper.map(tenpoRequest, TenpoInfo.class);
+        
+        // アップロード実行処理メソッドの呼び出し
+        info.setImage(tenpoInfoService.uploadFile(multipartFile));
+        
+        logger.info("info is {}", info.toString());
+        
         // 店舗情報の登録
-        tenpoInfoService.save(userRequest);
+        tenpoInfoService.save(info);
         return "redirect:/tenpoinfo/list";
     }
 

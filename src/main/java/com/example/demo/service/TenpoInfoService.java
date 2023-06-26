@@ -1,12 +1,13 @@
 package com.example.demo.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dao.TenpoInfoMapper;
-import com.example.demo.dto.TenpoAddRequest;
 import com.example.demo.dto.TenpoSearchRequest;
 import com.example.demo.dto.TenpoUpdateRequest;
 import com.example.demo.entity.TenpoInfo;
@@ -51,7 +52,7 @@ public class TenpoInfoService {
      * 店舗情報登録
      * @param tenpoAddRequest リクエストデータ
      */
-    public void save(TenpoAddRequest tenpoAddRequest) {
+    public void save(TenpoInfo tenpoAddRequest) {
         tenpoInfoMapper.save(tenpoAddRequest);
     }
 
@@ -69,5 +70,19 @@ public class TenpoInfoService {
     public void delete(Long id) {
         tenpoInfoMapper.delete(id);
     }
+    
+	/* アップロードの実行処理 */
+	public byte[] uploadFile(MultipartFile multipartFile) {
+    	try {
+        	// アップロードファイルをバイト値に変換
+    		byte[] bytes = multipartFile.getBytes();
+			
+    		return bytes;
+			
+    	} catch (IOException e) {
+        	e.printStackTrace();
+    		return null;
+    	}
+	}    
     
 }

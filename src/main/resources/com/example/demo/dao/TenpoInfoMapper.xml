@@ -30,14 +30,16 @@
          <!-- 新規登録 -->
     <insert id="save">
         INSERT INTO daikoudb.tenpoinfotable
-            (name, address, phone, info, url, image, update_date, create_date)
+            (name, address, phone, time, url, image, update_date, create_date, password)
         VALUES
-            (#{name}, #{address}, #{phone}, #{info}, #{url}, #{image}, CURRENT_TIMESTAMP,  CURRENT_TIMESTAMP)
+            (#{name}, #{address}, #{phone}, #{time}, #{url, jdbcType=VARCHAR},
+             #{image, jdbcType=BLOB},
+              CURRENT_TIMESTAMP,  CURRENT_TIMESTAMP, #{password})
     </insert>
     
         <!-- 更新 -->
     <update id="update">
-        UPDATE daikoudb.tenpoinfotable SET name = #{name}, address = #{address}, phone = #{phone}, info = #{info}, url = #{url}, image = #{image}, update_date = CURRENT_TIMESTAMP WHERE id = #{id}
+        UPDATE daikoudb.tenpoinfotable SET name = #{name}, address = #{address}, phone = #{phone}, time = #{time}, url = #{url, jdbcType=VARCHAR}, image = #{image, jdbcType=BLOB}, update_date = CURRENT_TIMESTAMP, password = #{password} WHERE id = #{id}
     </update>
     
         <!-- 論理削除 -->

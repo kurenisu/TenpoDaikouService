@@ -14,7 +14,7 @@ import lombok.Data;
 public class TenpoSearchRequest implements Serializable{
 	
     /**
-     * ユーザー名
+     * 店舗名
      */
     private String name;
 

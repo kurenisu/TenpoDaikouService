@@ -3,8 +3,8 @@ package com.example.demo.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.dto.TenpoAddRequest;
 import com.example.demo.dto.TenpoSearchRequest;
 import com.example.demo.dto.TenpoUpdateRequest;
 import com.example.demo.entity.TenpoInfo;
@@ -40,7 +40,7 @@ public interface TenpoInfoMapper {
      * 店舗情報登録
      * @param tenpoInfoRequest 登録用リクエストデータ
      */
-    void save(TenpoAddRequest tenpoRequest);
+    void save(TenpoInfo tenpoRequest);
     
     /**
      * 店舗情報更新
@@ -53,4 +53,8 @@ public interface TenpoInfoMapper {
      * @param id ID
      */
     void delete(Long id);
+    
+	/* アップロード実行処理 */
+	public byte[] uploadFile(MultipartFile multipartFile);    
+    
 }
