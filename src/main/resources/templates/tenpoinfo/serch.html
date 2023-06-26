@@ -9,8 +9,8 @@
         </div>
         <form th:action="@{/tenpoinfo/serch}" th:object="${tenpoSearchRequest}" th:method="post">
             <div class="form-group">
-<!--                <label for="id">ID</label>-->
-<!--                <input type="text" class="w-25 form-control" th:field="*{id}">-->
+                <label for="id">ID</label>
+                <input type="text" class="w-25 form-control" th:field="*{id}">
                 <label for="name">名前</label>
                 <input type="text" class="w-50 form-control" th:field="*{name}">
             </div><br />
@@ -38,7 +38,9 @@
                         <td th:text="*{phone}"></td>
                         <td th:text="*{time}"></td>
                         <td ><a th:href="*{url}" target="_blank"><p th:text="*{url}"></p></a></td>
-                        <td ><img th:src="*{banner}" th:width="50px" th:height="50px" alt="画像"></img></td>
+                        <td >
+							<div th:if="${tenpo.banner}"><img th:src="*{banner}" th:width="50px" th:height="50px" alt="画像"></img></div>
+						</td>
                         <td>
                             <a th:href="@{/tenpoinfo/{id}/edit(id=*{id})}" class="btn btn-primary">編集</a>
                             <a th:href="@{/tenpoinfo/{id}/delete(id=*{id})}" class="btn btn-secondary">削除</a>

@@ -30,9 +30,10 @@ import com.example.demo.service.TenpoInfoService;
 
 /**
  * 店舗情報 Controller
+ * @param <InputStream>
  */
 @Controller
-public class TenpoInfoController {
+public class TenpoInfoController<InputStream> {
 	/**
 	 * 店舗情報 Service
 	**/
@@ -42,7 +43,7 @@ public class TenpoInfoController {
 	@Autowired
 	private ModelMapper modelMapper;
 	
-	MultipartFile inputStream;
+	MultipartFile multiInputStream;
 	
 	Logger logger = LoggerFactory.getLogger(TenpoInfoController.class);
 	
@@ -56,7 +57,7 @@ public class TenpoInfoController {
     public String displayList(Model model) throws UnsupportedEncodingException {
         List<TenpoInfo> tenpoList = tenpoInfoService.findAll();
         
-        StringBuffer data  = new StringBuffer();
+        StringBuffer data;
         
         String base64 = "";
         
@@ -64,10 +65,11 @@ public class TenpoInfoController {
         for(int i=0; i<tenpoList.size(); i++) {
         	if(tenpoList.get(i).getImage() != null) {
         		// base64にエンコードしたものを文字列に変更
-        		base64 = new String(Base64.encodeBase64(tenpoList.get(i).getImage(), false),"ASCII");
+        		base64 = new String(Base64.encodeBase64String(tenpoList.get(i).getImage()));
         		// 拡張子をjpegと指定
                 // <img ht:src="">で指定できる形にする
-        		data.append("data:image/jpeg;base64,");
+        		data = new StringBuffer();
+        		data.append("data:image/png;base64,");
         		data.append(base64);
         		tenpoList.get(i).setBanner(data.toString());
         	}
@@ -115,6 +117,7 @@ public class TenpoInfoController {
         tenpoUpdateRequest.setAddress(tenpo.getAddress());
         tenpoUpdateRequest.setTime(tenpo.getTime());
         tenpoUpdateRequest.setUrl(tenpo.getUrl());
+        tenpoUpdateRequest.setImageName(tenpo.getImage_name());
         model.addAttribute("tenpoUpdateRequest", tenpoUpdateRequest);
         return "tenpoinfo/edit";
     }
@@ -128,6 +131,22 @@ public class TenpoInfoController {
     @RequestMapping(value = "/tenpoinfo/serch", method = RequestMethod.POST)
     public String search(@ModelAttribute TenpoSearchRequest tenpoSearchRequest, Model model) {
         List<TenpoInfo> tenpoList = tenpoInfoService.search(tenpoSearchRequest);
+        StringBuffer data;
+        
+        String base64 = "";
+        
+        for(int i=0; i<tenpoList.size(); i++) {
+        	if(tenpoList.get(i).getImage() != null) {
+        		// base64にエンコードしたものを文字列に変更
+        		base64 = new String(Base64.encodeBase64String(tenpoList.get(i).getImage()));
+        		// 拡張子をjpegと指定
+                // <img ht:src="">で指定できる形にする
+        		data = new StringBuffer();
+        		data.append("data:image/png;base64,");
+        		data.append(base64);
+        		tenpoList.get(i).setBanner(data.toString());
+        	}
+        }
         model.addAttribute("tenpolist", tenpoList);
         return "tenpoinfo/serch";
     }
@@ -164,17 +183,16 @@ public class TenpoInfoController {
             model.addAttribute("validationError", errorList);
             return "tenpoinfo/add";
         }
-        // フォームに渡されたアップロードファイルを取得
-        MultipartFile multipartFile = tenpoRequest.getImage();
-        
         // tenpoRequestをTenpoinfoクラスに変換
         TenpoInfo info = modelMapper.map(tenpoRequest, TenpoInfo.class);
-        
-        // アップロード実行処理メソッドの呼び出し
-        info.setImage(tenpoInfoService.uploadFile(multipartFile));
-        
-        logger.info("info is {}", info.toString());
-        
+        if(!tenpoRequest.getImage().isEmpty()) {
+            // フォームに渡されたアップロードファイルを取得
+            MultipartFile multipartFile = tenpoRequest.getImage();
+
+            // アップロード実行処理メソッドの呼び出し
+            info.setImage(tenpoInfoService.uploadFile(multipartFile));
+            info.setImage_name(multipartFile.getOriginalFilename());        	
+        }
         // 店舗情報の登録
         tenpoInfoService.save(info);
         return "redirect:/tenpoinfo/list";
@@ -196,8 +214,19 @@ public class TenpoInfoController {
             model.addAttribute("validationError", errorList);
             return "tenpoinfo/edit";
         }
+        // tenpoRequestをTenpoinfoクラスに変換
+        TenpoInfo info = modelMapper.map(tenpoUpdateRequest, TenpoInfo.class);
+        if(!tenpoUpdateRequest.getImage().isEmpty()) {
+            // フォームに渡されたアップロードファイルを取得
+            MultipartFile multipartFile = tenpoUpdateRequest.getImage();
+            
+            // アップロード実行処理メソッドの呼び出し
+            info.setImage(tenpoInfoService.uploadFile(multipartFile));
+            info.setImage_name(multipartFile.getOriginalFilename());        	
+        }
+
         // ユーザー情報の更新
-        tenpoInfoService.update(tenpoUpdateRequest);
+        tenpoInfoService.update(info);
         return "redirect:/tenpoinfo/list";
     }
     

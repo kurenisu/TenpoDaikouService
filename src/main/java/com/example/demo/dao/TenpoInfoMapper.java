@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dto.TenpoSearchRequest;
-import com.example.demo.dto.TenpoUpdateRequest;
 import com.example.demo.entity.TenpoInfo;
 
 /**
@@ -46,7 +45,7 @@ public interface TenpoInfoMapper {
      * 店舗情報更新
      * @param tenpoInfoUpdateRequest 更新用リクエストデータ
      */
-    void update(TenpoUpdateRequest tenpoUpdateRequest);
+    void update(TenpoInfo info);
     
     /**
      * 店舗情報の論理削除

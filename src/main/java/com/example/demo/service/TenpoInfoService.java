@@ -9,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dao.TenpoInfoMapper;
 import com.example.demo.dto.TenpoSearchRequest;
-import com.example.demo.dto.TenpoUpdateRequest;
 import com.example.demo.entity.TenpoInfo;
 
 /**
@@ -60,7 +59,7 @@ public class TenpoInfoService {
      * 店舗情報更新
      * @param tenpoEditRequest リクエストデータ
      */
-    public void update(TenpoUpdateRequest tenpoUpdateRequest) {
+    public void update(TenpoInfo tenpoUpdateRequest) {
         tenpoInfoMapper.update(tenpoUpdateRequest);
     }
     /**

@@ -40,6 +40,10 @@ public class TenpoInfo implements Serializable{
      */
     private byte[] image;
     /**
+     * 店舗画像名
+     */
+    private String image_name;
+    /**
      * 店舗画像表示用
      */
     private String banner;

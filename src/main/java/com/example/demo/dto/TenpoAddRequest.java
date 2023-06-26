@@ -52,6 +52,11 @@ public class TenpoAddRequest implements Serializable {
    */
    private MultipartFile image;
    
+   /**
+   * 画像名
+   */
+   private String imageName;
+   
 //   /**
 //   * パスワード
 //   */
