@@ -33,9 +33,9 @@
          <!-- 新規登録 -->
     <insert id="save">
         INSERT INTO daikoudb.tenpoinfotable
-            (name, address, phone, time, url, image, image_name, update_date, create_date)
+            (name, post_code, address, phone, time, url, image, image_name, update_date, create_date)
         VALUES
-            (#{name}, #{address}, #{phone}, #{time}, #{url, jdbcType=VARCHAR},
+            (#{name}, #{postCode}, #{address}, #{phone}, #{time}, #{url, jdbcType=VARCHAR},
              #{image, jdbcType=BLOB},
              #{image_name, jdbcType=VARCHAR},
               CURRENT_TIMESTAMP,  CURRENT_TIMESTAMP)
@@ -43,7 +43,7 @@
     
         <!-- 更新 -->
     <update id="update">
-        UPDATE daikoudb.tenpoinfotable SET name = #{name}, address = #{address}, phone = #{phone}, time = #{time}, url = #{url, jdbcType=VARCHAR}, image = #{image, jdbcType=BLOB}, image_name = #{image_name, jdbcType=VARCHAR}, update_date = CURRENT_TIMESTAMP WHERE id = #{id}
+        UPDATE daikoudb.tenpoinfotable SET name = #{name}, post_code = #{postCode}, address = #{address}, phone = #{phone}, time = #{time}, url = #{url, jdbcType=VARCHAR}, image = #{image, jdbcType=BLOB}, image_name = #{image_name, jdbcType=VARCHAR}, update_date = CURRENT_TIMESTAMP WHERE id = #{id}
     </update>
     
         <!-- 論理削除 -->

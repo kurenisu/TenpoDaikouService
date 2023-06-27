@@ -20,6 +20,18 @@ public class TenpoInfo implements Serializable{
      */
     private String name;
     /**
+     * 郵便番号
+     */
+    private String postCode;
+    /**
+     * 郵便番号(3桁表示用)
+     */
+    private String postal1;
+    /**
+     * 郵便番号(4桁表示用)
+     */
+    private String postal2;
+    /**
      * 住所
      */
     private String address;
@@ -47,10 +59,6 @@ public class TenpoInfo implements Serializable{
      * 店舗画像表示用
      */
     private String banner;
-    /**
-     * パスワード
-     */
-    private String password;
     /**
      * 更新日時
      */

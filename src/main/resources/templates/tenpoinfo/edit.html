@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head
-    th:replace="common/head :: head_fragment(title = '店舗情報編集', scripts = ~{::script}, links = ~{::link})"></head>
+<head th:replace="common/head :: head_fragment(title = '店舗情報編集', scripts = ~{::script}, links = ~{::link})"></head>
 <body>
     <div class="container">
         <div th:if="${validationError}" th:each="error : ${validationError}">
@@ -12,60 +11,42 @@
             th:method="post"  enctype="multipart/form-data">
             <input type="hidden" th:field="*{id}" />
             <div>
-                <div class="row mx-md-n5">
-                    <div class="col-2 pt-3 border bg-light">
-                        店舗名<span class="text-danger">※</span>
-                    </div>
-                    <div class="col py-2 border">
-                        <input type="text" class="form-control" th:field="*{name}">
-                    </div>
+				<!-- 店舗名 -->
+                <div class="form-group">
+                    <label>店舗名<span class="text-danger">※</span></label>
+                    <input type="text" class="form-control" th:field="*{name}">
                 </div>
-                <div class="row mx-md-n5">
-                    <div class="col-2 pt-3 border bg-light">住所<span class="text-danger">※</span></div>
-                    <div class="col py-2 border">
-                        <input type="text" class="form-control" th:field="*{address}">
-                    </div>
+                <!-- 郵便番号(住所自動入力) -->
+                <div class="form-group">
+					<label for="post" style="display:block">郵便番号<span class="text-danger">※</span></label>
+					<input type="text" th:field="*{postal1}" name="postal1" size="3">-<input type="text" th:field="*{postal2}" name="postal2" size="4"
+					onKeyUp="AjaxZip3.zip2addr('postal1', 'postal2', 'address', 'address');">
+				</div>
+				<!-- 住所 -->                
+                <div class="form-group">
+                    <label for="address">住所<span class="text-danger">※</span></label>
+                    <input type="text" class="form-control" th:field="*{address}" name="address">
                 </div>
-                <div class="row mx-md-n5">
-                    <div class="col-2 pt-3 border bg-light">
-                        電話番号<span class="text-danger">※</span>
-                    </div>
-                    <div class="col py-2 border">
-                        <input type="text" class="form-control" th:field="*{phone}">
-                    </div>
+                <!-- 電話番号 -->
+                <div class="form-group">
+                    <label>電話番号<span class="text-danger">※</span></label>
+                    <input type="text" class="form-control" th:field="*{phone}">
                 </div>
-                <div class="row mx-md-n5">
-                    <div class="col-2 pt-3 border bg-light">
-                        営業時間<span class="text-danger">※</span>
-                    </div>
-                    <div class="col py-2 border">
-                        <input type="text" class="form-control" th:field="*{time}">
-                    </div>
+                <!-- 営業時間 -->
+                <div class="form-group">
+                    <label>営業時間<span class="text-danger">※</span></label>
+                    <input type="text" class="form-control" th:field="*{time}">
                 </div>
-                <div class="row mx-md-n5">
-                    <div class="col-2 pt-3 border bg-light">
-                        店舗URL
-                    </div>
-                    <div class="col py-2 border">
-                        <input type="text" class="form-control" th:field="*{url}">
-                    </div>
+                <!-- 店舗URL -->
+                <div class="form-group">
+                    <label>店舗URL</label>
+                    <input type="text" class="form-control" th:field="*{url}">
                 </div>
-                <div class="row mx-md-n5">
-                    <div class="col-2 pt-3 border bg-light">
-                        画像
-                    </div>
-                    <div class="col py-2 border">
-                        <input type="file" th:field="*{image}" id="fileimage" name="*{image_name}" class="form-control" accept="image/png, image/jpg">
-                    </div>
+                <!-- 添付画像 -->
+                <div class="form-group">
+                    <label>画像</label>
+                    <input type="file" th:field="*{image}" id="fileimage" name="image" class="form-control" accept="image/png, image/jpg">
                 </div>
-<!--                <div class="row mx-md-n5">-->
-<!--                    <div class="col-2 pt-3 border bg-light">-->
-<!--                        パスワード<span class="text-danger">※</span>-->
-<!--                    </div>-->
-<!--                    <div class="col py-2 border">-->
-<!--                        <input type="text" class="form-control" th:field="*{password}">-->
-<!--                    </div>-->
-<!--                </div>                            -->
             </div>
             <br />
             <div class="text-center">

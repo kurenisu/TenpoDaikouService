@@ -30,10 +30,9 @@ import com.example.demo.service.TenpoInfoService;
 
 /**
  * 店舗情報 Controller
- * @param <InputStream>
  */
 @Controller
-public class TenpoInfoController<InputStream> {
+public class TenpoInfoController {
 	/**
 	 * 店舗情報 Service
 	**/
@@ -61,8 +60,11 @@ public class TenpoInfoController<InputStream> {
         
         String base64 = "";
         
-        logger.info("tenpoListSize is {}", tenpoList.size());
         for(int i=0; i<tenpoList.size(); i++) {
+        	//DBから取得したpost_codeを分割してpostal1,postal2に挿入
+        	tenpoList.get(i).setPostal1(tenpoList.get(i).getPostCode().substring(0, 3));
+        	tenpoList.get(i).setPostal2(tenpoList.get(i).getPostCode().substring(3));
+        	
         	if(tenpoList.get(i).getImage() != null) {
         		// base64にエンコードしたものを文字列に変更
         		base64 = new String(Base64.encodeBase64String(tenpoList.get(i).getImage()));
@@ -74,7 +76,6 @@ public class TenpoInfoController<InputStream> {
         		tenpoList.get(i).setBanner(data.toString());
         	}
         }
-        logger.info("tenpoList is {}", tenpoList);
         model.addAttribute("tenpolist", tenpoList);
         model.addAttribute("tenpoSearchRequest", new TenpoSearchRequest());
         return "tenpoinfo/serch";
@@ -114,6 +115,8 @@ public class TenpoInfoController<InputStream> {
         tenpoUpdateRequest.setId(tenpo.getId());
         tenpoUpdateRequest.setName(tenpo.getName());
         tenpoUpdateRequest.setPhone(tenpo.getPhone());
+        tenpoUpdateRequest.setPostal1(tenpo.getPostCode().substring(0,3));
+        tenpoUpdateRequest.setPostal2(tenpo.getPostCode().substring(3));
         tenpoUpdateRequest.setAddress(tenpo.getAddress());
         tenpoUpdateRequest.setTime(tenpo.getTime());
         tenpoUpdateRequest.setUrl(tenpo.getUrl());
@@ -136,6 +139,11 @@ public class TenpoInfoController<InputStream> {
         String base64 = "";
         
         for(int i=0; i<tenpoList.size(); i++) {
+        	
+        	//DBから取得したpost_codeを分割してpostal1,postal2に挿入
+        	tenpoList.get(i).setPostal1(tenpoList.get(i).getPostCode().substring(0, 3));
+        	tenpoList.get(i).setPostal2(tenpoList.get(i).getPostCode().substring(3));
+        	
         	if(tenpoList.get(i).getImage() != null) {
         		// base64にエンコードしたものを文字列に変更
         		base64 = new String(Base64.encodeBase64String(tenpoList.get(i).getImage()));
@@ -185,6 +193,9 @@ public class TenpoInfoController<InputStream> {
         }
         // tenpoRequestをTenpoinfoクラスに変換
         TenpoInfo info = modelMapper.map(tenpoRequest, TenpoInfo.class);
+        
+        info.setPostCode(tenpoRequest.getPostal1()+tenpoRequest.getPostal2());
+        
         if(!tenpoRequest.getImage().isEmpty()) {
             // フォームに渡されたアップロードファイルを取得
             MultipartFile multipartFile = tenpoRequest.getImage();
@@ -214,8 +225,11 @@ public class TenpoInfoController<InputStream> {
             model.addAttribute("validationError", errorList);
             return "tenpoinfo/edit";
         }
-        // tenpoRequestをTenpoinfoクラスに変換
+        // tenpoUpdateRequestをTenpoinfoクラスに変換
         TenpoInfo info = modelMapper.map(tenpoUpdateRequest, TenpoInfo.class);
+        
+        info.setPostCode(tenpoUpdateRequest.getPostal1()+tenpoUpdateRequest.getPostal2());
+        
         if(!tenpoUpdateRequest.getImage().isEmpty()) {
             // フォームに渡されたアップロードファイルを取得
             MultipartFile multipartFile = tenpoUpdateRequest.getImage();

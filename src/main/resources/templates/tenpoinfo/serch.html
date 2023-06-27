@@ -34,7 +34,7 @@
                     <tr th:each="tenpo : ${tenpolist}" th:object="${tenpo}" class="align-middle">
                         <td th:text="*{id}"></td>
                         <td th:text="*{name}"></td>
-                        <td th:text="*{address}"></td>
+                        <td th:text="'〒' + *{postal1} + '-' + *{postal2} + ' ' + *{address}"></td>
                         <td th:text="*{phone}"></td>
                         <td th:text="*{time}"></td>
                         <td ><a th:href="*{url}" target="_blank"><p th:text="*{url}"></p></a></td>

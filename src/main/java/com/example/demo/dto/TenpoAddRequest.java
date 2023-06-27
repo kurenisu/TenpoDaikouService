@@ -23,6 +23,20 @@ public class TenpoAddRequest implements Serializable {
     private String name;
     
     /**
+    * 郵便番号(3桁)
+    */
+   @NotEmpty(message = "上3桁の郵便番号を入力してください")
+   @Size(max = 3, message = "上3桁の郵便番号は3桁以内で入力してください")
+   private String postal1;
+   
+   /**
+   * 郵便番号(4桁)
+   */
+   @NotEmpty(message = "下4桁の郵便番号を入力してください")
+   @Size(max = 4, message = "下4桁の郵便番号は4桁以内で入力してください")
+   private String postal2;
+    
+    /**
     * 住所
     */
    @NotEmpty(message = "住所を入力してください")
@@ -56,12 +70,5 @@ public class TenpoAddRequest implements Serializable {
    * 画像名
    */
    private String imageName;
-   
-//   /**
-//   * パスワード
-//   */
-//   @NotEmpty(message = "パスワードを入力してください")
-//   @Size(max = 12, message = "パスワードは12桁以内で入力してください")
-//   private String password;
 
 }

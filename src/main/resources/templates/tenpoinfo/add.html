@@ -8,34 +8,42 @@
         </div>
         <h1>店舗新規登録</h1>
         <form th:action="@{/tenpoinfo/create}" th:object="${tenpoAddRequest}" th:method="post"  enctype="multipart/form-data">
+			<!-- 店舗名 -->
             <div class="form-group">
                 <label for="name">店舗名：<span class="text-danger">※</span></label>
                 <input type="text" th:field="*{name}" id="name" name="name"  class="form-control">
             </div>
+            <!-- 郵便番号(住所自動入力) -->
             <div class="form-group">
-                <label>住所：<span class="text-danger">※</span></label>
-                <input type="text" th:field="*{address}" class="form-control">
+				<label for="post" style="display:block">郵便番号<span class="text-danger">※</span></label>
+				<input type="text" th:field="*{postal1}"  name="postal1" size="3">-<input type="text" th:field="*{postal2}" name="postal2" size="4"
+			onKeyUp="AjaxZip3.zip2addr('postal1', 'postal2', 'address', 'address');">
+			</div>
+			<!-- 住所 -->
+            <div class="form-group">
+                <label for="address">住所：<span class="text-danger">※</span></label>
+                <input type="text" th:field="*{address}" class="form-control" name="address">
             </div>
+            <!-- 電話番号 -->
             <div class="form-group">
                 <label>電話番号：<span class="text-danger">※</span></label>
                 <input type="text" th:field="*{phone}" class="form-control">
             </div>
+            <!-- 営業時間 -->
             <div class="form-group">
                 <label>営業時間：<span class="text-danger">※</span></label>
                 <input type="text" th:field="*{time}" class="form-control">
             </div>
+            <!-- 店舗URL -->
             <div class="form-group">
                 <label>店舗URL：</label>
                 <input type="text" th:field="*{url}" class="form-control">
             </div>
+            <!-- 添付画像 -->
             <div class="form-group">
                 <label for="fileimage">画像：</label>
                 <input type="file" th:field="*{image}" id="fileimage" name="image" class="form-control" accept="image/png, image/jpg">
             </div>
-<!--            <div class="form-group">-->
-<!--                <label>パスワード：<span class="text-danger">※</span></label>-->
-<!--                <input type="text" th:field="*{password}" class="form-control">-->
-<!--            </div>-->
             <br />
             <div class="text-center">
                 <input type="submit" value="登録" class="btn btn-primary">
